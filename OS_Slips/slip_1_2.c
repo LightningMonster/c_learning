@@ -1,7 +1,12 @@
 /*
-Q.2 Write a C program to implement the shell which displays the command prompt “myshell$”. It accepts the command, tokenize the command line and execute it by creating the child process. Also implement the additional command 
-‘typeline’ as  typeline +n   filename      :- To print first n lines in the file. typeline -a    filename      :- To print all  lines in the file. 
+Q.2 Write a C program to implement the shell which displays the command prompt “myshell$”. 
+It accepts the command, tokenizes the command line, and executes it by creating a child process. 
+Also implement the additional command:
+‘typeline’ as  
+  typeline +n   filename  :- To print first n lines in the file.
+  typeline -a   filename  :- To print all lines in the file.
 */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -101,6 +106,12 @@ void process_input(char *input) {
 
     if (args[0] == NULL) {
         return;  // No command entered
+    }
+
+    // Check for the "exit" command to terminate the shell
+    if (strcmp(args[0], "exit") == 0) {
+        printf("Exiting shell...\n");
+        exit(0);  // Exit the program
     }
 
     if (strcmp(args[0], "typeline") == 0) {
