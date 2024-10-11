@@ -1,7 +1,3 @@
-/*
-Q.1 Write the simulation program to implement demand paging and show the  page scheduling and total number of page faults according to the LFU page replacement algorithm. Assume the   memory of n frames.  
- Reference String : 3,4,5,4,3,4,7,2,4,5,6,7,2,4,6 
-*/
 #include <stdio.h>
 
 #define MAX_FRAMES 10
