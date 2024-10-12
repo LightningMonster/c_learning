@@ -1,5 +1,5 @@
 /* 5.1, 7.1, 17.1, 23.2
-Write the simulation program for demand paging and show the page
+Q9) Write the simulation program for demand paging and show the page
 scheduling and total number of page faults according the optimal page
 replacement algorithm. Assume the memory of n frames.
 Reference String : 8 5 7 8 5 7 2 3 7 3 5 9 4 6 2 */

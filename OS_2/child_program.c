@@ -1,3 +1,4 @@
+//child_program.c
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -48,3 +49,14 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
+
+/*
+## Compile both programs using the following commands:
+     yash@PAVII:~/Desktop/c_learning/OS_2$ gcc -o Q29 Q29.c
+     yash@PAVII:~/Desktop/c_learning/OS_2$ gcc -o child_program child_program.c
+   
+## execute the parent program:
+     yash@PAVII:~/Desktop/c_learning/OS_2$ ./parent
+
+
+*/
