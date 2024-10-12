@@ -63,7 +63,7 @@ int main() {
         args[i] = NULL;  // Null-terminate the argument list
 
         // Check for the search command
-        if (strcmp(args[0], "search") == 0 && strcmp(args[1], "f") == 0 && i == 4) {
+        if (i >= 4 && strcmp(args[0], "search") == 0 && strcmp(args[1], "f") == 0) {
             // Fork a child process to execute the search
             pid_t pid = fork();
             if (pid < 0) {
@@ -81,7 +81,7 @@ int main() {
             // Exit the shell
             break;
         } else {
-            printf("Unknown command or incorrect format.\n");
+            printf("Unknown command or incorrect format. Please use 'search f filename pattern'.\n");
         }
     }
 
