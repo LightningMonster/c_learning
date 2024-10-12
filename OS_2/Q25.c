@@ -144,6 +144,6 @@ int main() {
     priority_preemptive();
     print_output();
     print_gantt_chart();
-
+    
     return 0;
 }
