@@ -44,11 +44,19 @@ void print_all_lines(const char *filename) {
 
 // Function to execute the 'typeline' command
 void execute_typeline(char *args[]) {
-    if (strcmp(args[1], "+n") == 0 && args[2] != NULL && args[3] != NULL) {
-        int n = atoi(args[2]);
-        print_first_n_lines(args[3], n);
-    } else if (strcmp(args[1], "-a") == 0 && args[2] != NULL) {
-        print_all_lines(args[2]);
+    if (args[1] != NULL && args[2] != NULL) {
+        // If it's the '+n' option, extract the integer part
+        if (args[1][0] == '+' && strlen(args[1]) > 1) {
+            int n = atoi(args[1] + 1);  // Skip the '+' and convert the rest to int
+            print_first_n_lines(args[2], n);
+        } 
+        // If it's the '-a' option, print all lines
+        else if (strcmp(args[1], "-a") == 0) {
+            print_all_lines(args[2]);
+        } else {
+            printf("Invalid typeline command format\n");
+            printf("Usage: typeline +n filename or typeline -a filename\n");
+        }
     } else {
         printf("Invalid typeline command format\n");
         printf("Usage: typeline +n filename or typeline -a filename\n");
