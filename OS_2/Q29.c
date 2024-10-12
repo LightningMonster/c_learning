@@ -10,9 +10,8 @@ the binary search to search the particular item in the array.*/
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
-#include <string.h>
 
-// Function to sort the array (simple bubble sort)
+// Function to sort the array using bubble sort
 void bubbleSort(int arr[], int n) {
     int i, j, temp;
     for (i = 0; i < n - 1; i++) {
@@ -50,14 +49,14 @@ int main() {
     pid = fork();
 
     if (pid < 0) {
-        printf("Fork failed!\n");
+        perror("Fork failed");
         return 1;
     }
 
     if (pid == 0) {
         // Child process
         char *args[100];  // Array of strings for execve arguments
-        char executable[] = "child_program.c";  // Name of the executable
+        char executable[] = "./child_program";  // Name of the executable
         char *envp[] = {NULL};  // No environment variables
 
         // Adding the name of the executable as the first argument
