@@ -12,76 +12,87 @@ pattern in the file.*/
 #include <sys/types.h>
 #include <sys/wait.h>
 
-// Function to search for a pattern in a file
-void search_in_file(const char *filename, const char *pattern) {
+#define MAX_INPUT_SIZE 1024
+#define MAX_ARGS 100
+
+void execute_command(char **args) {
+    pid_t pid, wpid;
+    int status;
+
+    // Create a child process
+    pid = fork();
+    if (pid == 0) {
+        // Child process
+        if (execvp(args[0], args) == -1) {
+            perror("myshell");
+        }
+        exit(EXIT_FAILURE);
+    } else if (pid < 0) {
+        perror("myshell");
+    } else {
+        // Parent process
+        do {
+            wpid = waitpid(pid, &status, WNOHANG);
+        } while (wpid == 0); // Wait for the child process to finish
+    }
+}
+
+void search_first_occurrence(const char *filename, const char *pattern) {
     FILE *file = fopen(filename, "r");
-    if (file == NULL) {
-        perror("Error opening file");
+    if (!file) {
+        perror("File opening failed");
         return;
     }
 
-    char line[1024];
-    int line_number = 0;
-    while (fgets(line, sizeof(line), file) != NULL) {
-        line_number++;
-        if (strstr(line, pattern) != NULL) {
-            printf("Pattern found in line %d: %s", line_number, line);
+    char line[MAX_INPUT_SIZE];
+    int line_number = 1;
+
+    while (fgets(line, sizeof(line), file)) {
+        if (strstr(line, pattern)) {
+            printf("First occurrence of '%s' found in %s on line %d: %s", pattern, filename, line_number, line);
             fclose(file);
-            return;
+            return; // Exit after first occurrence
         }
+        line_number++;
     }
-    
-    printf("Pattern not found in the file.\n");
+    printf("Pattern '%s' not found in %s.\n", pattern, filename);
     fclose(file);
 }
 
 int main() {
-    char command[1024];
+    char input[MAX_INPUT_SIZE];
+    char *args[MAX_ARGS];
 
     while (1) {
-        // Display the prompt
         printf("myshell$ ");
-        fflush(stdout);
-
-        // Read command from user
-        if (fgets(command, sizeof(command), stdin) == NULL) {
-            break;  // Exit on EOF
+        if (fgets(input, sizeof(input), stdin) == NULL) {
+            break; // Exit on EOF
         }
 
-        // Remove trailing newline character
-        command[strcspn(command, "\n")] = 0;
+        // Remove the trailing newline character
+        input[strcspn(input, "\n")] = 0;
 
-        // Tokenize the command
-        char *args[4];
-        char *token = strtok(command, " ");
+        // Tokenize the input
+        char *token = strtok(input, " ");
         int i = 0;
 
         while (token != NULL) {
             args[i++] = token;
             token = strtok(NULL, " ");
         }
-        args[i] = NULL;  // Null-terminate the argument list
+        args[i] = NULL; // Null terminate the argument list
 
         // Check for the search command
-        if (i >= 4 && strcmp(args[0], "search") == 0 && strcmp(args[1], "f") == 0) {
-            // Fork a child process to execute the search
-            pid_t pid = fork();
-            if (pid < 0) {
-                perror("Fork failed");
-                continue;
-            } else if (pid == 0) {
-                // In child process
-                search_in_file(args[2], args[3]);
-                exit(0);  // Terminate child process
-            } else {
-                // In parent process
-                wait(NULL);  // Wait for child process to finish
-            }
+        if (i == 4 && strcmp(args[0], "search") == 0 && strcmp(args[1], "f") == 0) {
+            // Search for first occurrence
+            search_first_occurrence(args[2], args[3]);
         } else if (strcmp(command, "exit") == 0) {
             // Exit the shell
             break;
         } else {
-            printf("Unknown command or incorrect format. Please use 'search f filename pattern'.\n");
+            printf("Usage:\n");
+            printf("myshell$ search f filename pattern\n");
+            printf("Command not recognized.\n");
         }
     }
 
