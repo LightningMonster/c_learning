@@ -1,5 +1,5 @@
 /* 25.2
-Write a programto implement the shell. It should display the command
+Q30) Write a program to implement the shell. It should display the command
 prompt “myshell$”. Tokenize the command line and execute the given
 command by creating the child process. Additionally it should interpret
 the following commands.
