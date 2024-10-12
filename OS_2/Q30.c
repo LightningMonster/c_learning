@@ -15,28 +15,6 @@ pattern in the file.*/
 #define MAX_INPUT_SIZE 1024
 #define MAX_ARGS 100
 
-void execute_command(char **args) {
-    pid_t pid, wpid;
-    int status;
-
-    // Create a child process
-    pid = fork();
-    if (pid == 0) {
-        // Child process
-        if (execvp(args[0], args) == -1) {
-            perror("myshell");
-        }
-        exit(EXIT_FAILURE);
-    } else if (pid < 0) {
-        perror("myshell");
-    } else {
-        // Parent process
-        do {
-            wpid = waitpid(pid, &status, WNOHANG);
-        } while (wpid == 0); // Wait for the child process to finish
-    }
-}
-
 void search_first_occurrence(const char *filename, const char *pattern) {
     FILE *file = fopen(filename, "r");
     if (!file) {
@@ -86,7 +64,7 @@ int main() {
         if (i == 4 && strcmp(args[0], "search") == 0 && strcmp(args[1], "f") == 0) {
             // Search for first occurrence
             search_first_occurrence(args[2], args[3]);
-        } else if (strcmp(command, "exit") == 0) {
+        } else if (strcmp(args[0], "exit") == 0) {
             // Exit the shell
             break;
         } else {
