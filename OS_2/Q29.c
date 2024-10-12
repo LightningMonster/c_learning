@@ -57,7 +57,7 @@ int main() {
     if (pid == 0) {
         // Child process
         char *args[100];  // Array of strings for execve arguments
-        char executable[] = "child_program";  // Name of the executable
+        char executable[] = "child_program.c";  // Name of the executable
         char *envp[] = {NULL};  // No environment variables
 
         // Adding the name of the executable as the first argument
