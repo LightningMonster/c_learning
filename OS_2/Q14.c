@@ -41,8 +41,9 @@ void listFiles(char *dirname) {
     printf("Files in directory %s:\n", dirname);
     while ((entry = readdir(dir)) != NULL) {
         // Only display files (excluding '.' and '..')
-        if (entry->d_type == DT_REG || entry->d_type == DT_DIR)
+        if (entry->d_type == DT_REG || entry->d_type == DT_DIR) {
             printf("%s\n", entry->d_name);
+        }
     }
     closedir(dir);
 }
@@ -93,3 +94,15 @@ int main() {
         if (argCount > 2 && strcmp(args[0], "list") == 0) {
             if (strcmp(args[1], "f") == 0) {
                 listFiles(args[2]);
+            } else if (strcmp(args[1], "i") == 0) {
+                listFilesWithInodes(args[2]);
+            } else {
+                printf("Invalid option. Use 'f' for filenames or 'i' for filenames and inodes.\n");
+            }
+        } else {
+            printf("Command not recognized. Use 'list f dirname' or 'list i dirname'.\n");
+        }
+    }
+
+    return 0;
+}
