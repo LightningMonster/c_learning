@@ -8,10 +8,9 @@ count w filename :- To print number of words in the file.
 count l filename :- To print number of lines in the file.*/
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <string.h>  
 #include <unistd.h>
 #include <sys/types.h>
-#include <sys/wait.h>
 #include <fcntl.h>
 
 // Function to count characters, words, or lines in a file
@@ -74,9 +73,6 @@ void execute_command(char *args[]) {
                 perror("Command execution failed");
             }
             exit(EXIT_FAILURE);
-        } else {
-            // Parent process waits for the child to finish
-            wait(NULL);
         }
     }
 }

@@ -20,7 +20,7 @@ int main()
  {
          if(pid==0)
   { 
-   printf("\nChild Process is Sleeping ..."); 
+   printf("\nChild Process is Sleeping ...\n"); 
    sleep(5); 
    printf("\nOrphan Child's Parent ID : %d",getppid()); 
   }

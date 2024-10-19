@@ -4,7 +4,7 @@ Main function creates child process using fork system call.
 Parent process sorts the integers using bubble sort and 
 waits for child process using wait system call.
 Child process sorts the integers using insertion sort.*/
-#include<stdio.h>
+#include<stdio.h> 
 #include<sys/types.h>
 #include<unistd.h>
 #include<stdlib.h>
@@ -41,6 +41,7 @@ void insertionsort(int arr[30], int n)
         arr[j+1] = temp;    
     }  
 }  
+
 void fork1()
 {
  	int arr[25],arr1[25],n,i,status;
